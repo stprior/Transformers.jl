@@ -64,7 +64,15 @@ end
 @fluxlayershow GPTNeoXSplit false
 
 abstract type HGFGPTNeoXPreTrainedModel <: HGFPreTrainedModel end
+"""Model from HuggingFace based on GPT-NeoX, includes Pythia models.
+Pass in a NamedTuple with a OneHotArray in token field.
+```
+tokens = encode(encoder, "Text for transformer").token
+input = (; token = tokens)
+result = model(input)
+```
 
+"""
 struct HGFGPTNeoXModel{E, DEC} <: HGFGPTNeoXPreTrainedModel
     embed::E
     decoder::DEC

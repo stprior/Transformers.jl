@@ -1,0 +1,58 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "julia",
+            "request": "launch",
+            "name": "Run active Julia file",
+            "program": "${file}",
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "juliaEnv": "${command:activeJuliaEnvironment}"
+        },
+        {
+            "type": "julia",
+            "request": "launch",
+            "name": "HuggingFace Validation",
+            "program": "${workspaceFolder}/example/HuggingFaceValidation/main.jl",
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}/example/HuggingFaceValidation",
+            "juliaEnv": "${workspaceFolder}/example/HuggingFaceValidation",        
+            "args": ["EleutherAI/pythia-14m"]
+        },
+        {
+            "type": "julia",
+            "request": "launch",
+            "name": "HuggingFace Validate Tokenizer",
+            "program": "${workspaceFolder}/example/HuggingFaceValidation/main.jl",
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}/example/HuggingFaceValidation",
+            "juliaEnv": "${workspaceFolder}/example/HuggingFaceValidation",        
+            "args": ["--subject", "tokenizer", "EleutherAI/pythia-14m", "${workspaceFolder}/example/HuggingFaceValidation/README.md"]
+        },
+        {
+            "type": "",
+            "request": "launch",
+            "name": "HuggingFace Validate Tokenizer Run",
+            "program": "${workspaceFolder}/example/HuggingFaceValidation/main.jl",
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}/example/HuggingFaceValidation",
+            "juliaEnv": "${workspaceFolder}/example/HuggingFaceValidation",        
+            "args": ["--subject", "tokenizer", "EleutherAI/pythia-14m", "${workspaceFolder}/example/HuggingFaceValidation/README.md"]
+        },
+        {
+            "type": "julia",
+            "request": "launch",
+            "name": "pythia-14m",
+            "program": "example/GPTNeo_TextGeneration/text_generation.jl",
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "juliaEnv": "${command:activeJuliaEnvironment}"
+        },
+        
+    ]
+}

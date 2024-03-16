@@ -18,6 +18,27 @@ function test_tokenizer(name, corpus; output = nothing)
         end "Failed to load the tokenizer in Julia"
         @info "Julia tokenizer loaded successfully"
 
+        @info "Comparing Tokenizers"
+        #hgf_tkr.vocab is a Python Dict of string, int
+        mismatches=0
+        i=0
+        for (py_token, py_token_id) in hgf_tkr.vocab
+            try
+                i=i+1
+                @info "Testing token $i: $py_token"
+                jl_token_id = lookup(tkr.vocab, py_token)                    
+                if jl_token_id != (py_token_id+1)
+                    @warn "Token \"$py_token\" has different id in Julia ($jl_token_id) and Python ($py_token_id)"
+                    mismatches += 1
+                end
+            catch e
+                @warn "Token \"$py_token\" caused error $e"
+                mismatches += 1                    
+            end
+            
+        end
+        @test mismatches <= 5
+
         @info "Testing: Tokenizer"
         fd = nothing
         out_fd = nothing

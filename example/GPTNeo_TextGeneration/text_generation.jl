@@ -1,30 +1,29 @@
 using Flux
-using StatsBase
 using Transformers
 using Transformers.TextEncoders
 using Transformers.HuggingFace
 
+ 
 
 function temp_softmax(logits; temperature=1.2)
     return softmax(logits ./ temperature)
 end
 
-function top_k_sample(probs; k=10)    
+function top_k_sample(probs; k=10)
     indexes = partialsortperm(probs, 1:k, rev=true)
     index = rand(collect(indexes))
     return index
 end
 
 function generate_text(context=""; max_length=50)
-    
-    textenc = hgf"gpt2:tokenizer"
-    model = hgf"gpt2:lmheadmodel"
-    
-    encoded = encode(textenc, context).token
-    ids = encoded.onehots
+    textenc = hgf"EleutherAI/pythia-14m:tokenizer"
+    model = hgf"EleutherAI/pythia-14m:forcausallm"
+
+    tokens = encode(textenc, context).token
+    ids = tokens.onehots
     ends_id = lookup(textenc.vocab, textenc.endsym)
     for i in 1:max_length
-        input = (; token = encoded)
+        input = (; token = tokens)
         outputs = model(input)
         logits = @view outputs.logit[:, end, 1]
         probs = temp_softmax(logits)
@@ -32,7 +31,7 @@ function generate_text(context=""; max_length=50)
         push!(ids, new_id)
         new_id == ends_id && break
     end
-    return decode(textenc, encoded)
+    return decode(textenc, tokens)
 end
 
 function generate(prompt, max_length)
@@ -42,4 +41,4 @@ function generate(prompt, max_length)
     println(gen_text)
 end
 
-generate("The capital of Ireland is", 10)
+generate("The capital of Ireland is", 20)
